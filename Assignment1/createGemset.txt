@@ -1,0 +1,7 @@
+/** Commands for creating gemset **/
+
+1 . rvm version-name   (rvm 1.9.3)
+2 . rvm gemset create gemsetname  (rvm gemset create gemset)
+3 . rvm use version-name@gemsetname (rvm use 1.9.3@gemset)
+4 . rvm install gem        (rvm install simple_form)
+5 . ls `rvm gemdir`/gems   --- command to list gems in gemset
