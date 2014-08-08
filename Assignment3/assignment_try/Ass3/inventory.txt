@@ -1,0 +1,5 @@
+1*mobile*3*nokia
+2*mobile*6*samsung
+4*bottle*5*nothing
+6*mouse*5*hp
+7*lappy*89*dell
