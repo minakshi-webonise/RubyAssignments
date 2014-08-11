@@ -22,14 +22,14 @@ class ShopKeeper
        object.add_product
       when "2"
         puts "enter id of product which you want to delete"
-        p_id = gets.chomp
-        object.remove_product(p_id)
+        product_id = gets.chomp
+        object.remove_product(product_id)
       when "3"
         ShopInventory.list_product
       when "4"
         puts "enter name of product you want to search"
-        p_name = gets.chomp
-        ShopInventory.search_product(p_name)
+        product_name = gets.chomp
+        object.search_product(product_name)
       when "5"
         object.edit_product
       else
@@ -47,9 +47,9 @@ class ShopKeeper
     print "stock :"
     stock = gets.chomp
     print "company name :"
-    c_name = gets.chomp
+    company_name = gets.chomp
       File.open(@@filename, 'a') do |file|
-        file.write("#{id}*#{name}*#{stock}*#{c_name}\n")
+        file.write("#{id}*#{name}*#{stock}*#{company_name}\n")
       end
 
   end
@@ -66,25 +66,38 @@ class ShopKeeper
     File.rename("file.txt",@@filename)
   end
 
+  # search_product method will search product with argument passes either id or name
+  def search_product(arg)
+    puts "id \t name \t stock \t company name "
+    File.open(@@filename ,"r") do |file|
+      file.each_line do |line|
+        temp_array = line.split("*")
+        unless temp_array[1] == arg
+
+        else
+          puts "#{temp_array[0]}\t#{temp_array[1]}\t#{temp_array[2]}\t #{temp_array[3]}"
+        end
+      end
+    end
+  end
   # edit_product method will  edit product details which were entered by shopkeeper
   def edit_product
     puts "enter product id"
     id = gets.chomp
     #remove_product(id)
     puts "enter name"
-    p_name = gets.chomp
+    product_name = gets.chomp
     puts "enter stock"
-    p_stock = gets.chomp
-    puts "enter c_name"
-    p_cname = gets.chomp
-    puts "details  : #{p_name} #{p_stock} #{p_stock} #{p_cname}"
+    product_stock = gets.chomp
+    puts "enter company name"
+    product_cname = gets.chomp
     File.open(@@filename, 'r') do |f|
       File.open('file.txt', 'w') do |f1|
         f.each_line do |line|
           unless line.start_with? "#{id}"
             f1.write(line)
           else
-            f1.write("#{id}*#{p_name}*#{p_stock}*#{p_cname}\n")
+            f1.write("#{id}*#{product_name}*#{product_stock}*#{product_cname}\n")
           end
         end
       end

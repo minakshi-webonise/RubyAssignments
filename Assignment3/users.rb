@@ -17,12 +17,27 @@ class User
         ShopInventory.list_product
       when "2"
         puts "enter id of product you want to search"
-        p_id = gets.chomp
-        ShopInventory.search_product(p_id)
+        product_id = gets.chomp
+        object.search_product(product_id)
       when "3"
        object.buy_product
       else
         "wrong selection made"
+    end
+  end
+
+# search_product method will search product with argument passes either id or name
+  def search_product(arg)
+    puts "id \t name \t stock \t company name "
+    File.open(@@filename ,"r") do |file|
+      file.each_line do |line|
+        temp_array = line.split("*")
+        unless temp_array[0] == arg
+
+        else
+          puts "#{temp_array[0]}\t#{temp_array[1]}\t#{temp_array[2]}\t #{temp_array[3]}"
+        end
+      end
     end
   end
 
@@ -32,23 +47,33 @@ class User
     puts "enter id of product you want to buy"
     p_id = gets.chomp
     puts p_id
-    write_file = File.open("orders", "a")
+    write_file = File.open("orders.txt", "a")
     File.open(@@filename,"r") do |file|
-      file.each_line do |line|
-        temp_array =line.split("*")
-       # puts "array #{temp_array}"
-        if line.include?(p_id) && Integer(temp_array[2])>0
-          puts "product is present and stock :#{temp_array[2]}"
-          puts "enter your name"
-          c_name = gets.chomp
-          puts "enter credit card number"
-          credit_number = gets.chomp
-          puts "enter ccv number"
-          ccv_number = gets.chomp
-          write_file.write("#{c_name}*#{credit_number}*#{ccv_number}\n")
+      File.open("file.txt", "a") do |fp|
+        file.each_line do |line|
+          temp_array =line.split("*")
+          if temp_array[0]==p_id && Integer(temp_array[2])>0
+            puts "product is present and stock :#{temp_array[2]}"
+            puts "enter your name"
+            customer_name = gets.chomp
+            puts "enter credit card number"
+            credit_number = gets.chomp
+            puts "enter ccv number"
+            ccv_number = gets.chomp
+            write_file.write("#{customer_name}*#{credit_number}*#{ccv_number}\n")
+            stock = Integer(temp_array[2])-1
+
+            puts "stock : #{stock}"
+           end
+            unless line.start_with? "#{p_id}"
+              fp.write("#{temp_array[0]}*#{temp_array[1]}*#{temp_array[2]}*#{temp_array[3]}")
+            else
+              fp.write("#{temp_array[0]}*#{temp_array[1]}*#{stock}*#{temp_array[3]}")
+            end
+
         end
+        File.rename("file.txt",@@filename)
       end
     end
   end
 end
-#end

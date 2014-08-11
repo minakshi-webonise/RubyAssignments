@@ -8,7 +8,7 @@ class MainMethod
   #includes method related to identification of user
   def main_method
     puts "Enter user type"
-    puts "1. ShopKeeper"
+    puts "1. Shop keeper"
     puts "2 . User"
     user_type = gets.chomp
     case user_type
